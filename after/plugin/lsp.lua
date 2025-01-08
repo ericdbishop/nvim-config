@@ -5,7 +5,8 @@ lsp.preset("recommended")
 lsp.ensure_installed({
   'rust_analyzer',
   'gopls',
-  'clangd'
+  'clangd',
+  'pylsp',
 })
 
 -- Fix Undefined global 'vim'
@@ -67,3 +68,4 @@ vim.diagnostic.config({
     virtual_text = true
 })
 
+require('toggle_lsp_diagnostics').init()

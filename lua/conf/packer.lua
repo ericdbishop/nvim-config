@@ -29,11 +29,16 @@ return require('packer').startup(function(use)
     -- require('orgmode').setup{}
   -- end
   -- }
-  use("theprimeagen/harpoon")
+  use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
+  use 'karb94/neoscroll.nvim'
+  use("nvim-treesitter/playground")
   use("mbbill/undotree")
   use("tpope/vim-fugitive")
-  use("nvim-treesitter/nvim-treesitter-context");
   use("lervag/vimtex")
+  use("eandrju/cellular-automaton.nvim")
+  use("sphamba/smear-cursor.nvim")
+  use("WhoIsSethDaniel/toggle-lsp-diagnostics.nvim")
+  use("nvim-treesitter/nvim-treesitter-context");
 
   use {
           'VonHeikemen/lsp-zero.nvim',
@@ -57,6 +62,8 @@ return require('packer').startup(function(use)
                   {'rafamadriz/friendly-snippets'},
           }
   }
+
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 
 -- Load custom treesitter grammar for org filetype
 -- require('orgmode').setup_ts_grammar()

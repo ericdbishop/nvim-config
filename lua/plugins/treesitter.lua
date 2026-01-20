@@ -1,14 +1,14 @@
 return {
   {
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-    config = function()
-      local configs = (require'nvim-treesitter.configs')
+    "nvim-treesitter/nvim-treesitter",
+    lazy = false,    -- README: does not support lazy-loading 
+    build = ":TSUpdate",
 
-      configs.setup({
-        highlight = { enable = true },
-        indent = { enable = true },
+    config = function()
+      local config = require("nvim-treesitter.config")
+      require 'treesitter-context'
+
+      config.setup({
         ensure_installed = {
           "bash",
           "c",
@@ -30,28 +30,14 @@ return {
           "yaml",
           "go",
           "rust",
-          "javascript",
-          "jsonnet",
         },
-        --incremental_selection = {
-        --  enable = true,
-        --  keymaps = {
-        --    init_selection = "<C-space>",
-        --    node_incremental = "<C-space>",
-        --    scope_incremental = false,
-        --    node_decremental = "<bs>",
-        --  },
-        --},
-        --textobjects = {
-        --  move = {
-        --    enable = true,
-        --    goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner" },
-        --    goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner" },
-        --    goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer", ["[a"] = "@parameter.inner" },
-        --    goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner" },
-        --  },
-        --},
+        sync_install = false,
+        highlight = { enable = true },
+        indent = { enable = true },
+        additional_vim_regex_highlighting = false,
       })
-    end
+    end,
   },
+
+  { "nvim-treesitter/playground", enabled = false },
 }

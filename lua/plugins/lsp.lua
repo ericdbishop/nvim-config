@@ -102,13 +102,50 @@ return {
           'rust_analyzer',
           'gopls',
           'pylsp',
-          'ts_ls',
+          'clangd',
         },
         handlers = {
           -- this first function is the "default handler"
           -- it applies to every language server without a "custom handler"
           function(server_name)
             require('lspconfig')[server_name].setup({})
+          end,
+
+          -- Custom handler for clangd
+          clangd = function()
+            require('lspconfig').clangd.setup({
+              cmd = {
+                'clangd',
+                '--background-index',
+                '--clang-tidy',
+                '--completion-style=detailed',
+                '--header-insertion=iwyu',
+                '--header-insertion-decorators',
+                '--function-arg-placeholders',
+                '--fallback-style=llvm',
+              },
+
+              -- Helps clangd understand project root; adjust if you use different markers
+              root_dir = require('lspconfig').util.root_pattern(
+                'compile_commands.json',
+                'compile_flags.txt',
+                '.git'
+              ),
+
+              -- clangd-specific settings (these are passed via workspace/configuration)
+              settings = {
+                clangd = {
+                  -- These are optional; keep/remove based on preference
+                  InlayHints = {
+                    Designators = true,
+                    Enabled = true,
+                    ParameterNames = true,
+                    DeducedTypes = true,
+                  },
+                  semanticHighlighting = true,
+                },
+              },
+            })
           end,
         }
       })
